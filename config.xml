@@ -10,7 +10,7 @@
     <!-- The description that appears in the gadget chooser. -->
     <entry key="description" private="true">Lists the most recent actions (such as publishes) performed in OU Campus by specific users.</entry>
     
-    <entry key="thumbnail" private="true">http://fakeimg.pl/96/</entry>
+    <entry key="thumbnail" private="true">http://puck.uark.edu/ben/targetedActivityThumbnail.png</entry>
     <entry key="types" private="true">dashboard, sidebar</entry>
     <!--<entry key="notifications" private="true">message</entry>-->
     <entry key="columns" private="true">1</entry>
