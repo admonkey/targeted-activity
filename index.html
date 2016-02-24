@@ -81,7 +81,7 @@
 						$(data).each(function() {
 							var type = this['resource'];
 							var name = this['resource_name'];
-							var href = '';
+							var href = name;
 							var date = '';
 							var icon = 'icon-file';
 							var user = this['username'];
@@ -94,13 +94,17 @@
 								type = 'Page';
 								icon = 'icon-file';
 							}
+							else {
+								type = 'Asset';
+								icon = 'icon-file';
+							}
 							
 							var activityItem = $(
 							'<li>' + 
 								'<div class="icon"><i class="' + icon + '"></i></div>' + 
 								'<div class="activity">' + 
 									'<div class="subject">' + 
-										'<a class="filename" href="' + href + '" title="' + name + '" target="_top">' + name + '</a>' + 
+										'<a class="filename" href="' + href + '" title="' + name + '" type="' + type + '" target="_top">' + name + '</a>' + 
 									'</div>' + 
 									'<div class="what">' + 
 										type + ' published by ' + user + 
@@ -111,6 +115,17 @@
 								'</div>' +
 							'</li>');
 							$('#activity-list').append(activityItem);
+						});
+						
+						$('#activity-list a').on('click', function(event) {
+							event.preventDefault();
+							var name = $(event.target).attr('title');
+							var type = $(event.target).attr('type');
+							var href = '/preview' + name;
+							if (type == 'Folder')
+								href = '/browse/staging' + event.target.title;
+							
+							gadget.oucSetCurrentLocation(href);
 						});
 					},
 					error: function (xhr, status, error) {
