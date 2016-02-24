@@ -8,7 +8,7 @@
     <entry key="icon" private="true">http://commons.omniupdate.com/favicon.ico</entry>
     
     <!-- The description that appears in the gadget chooser. -->
-    <entry key="description" private="true">What my gadget does.</entry>
+    <entry key="description" private="true">Lists the most recent actions performed in OU Campus by yourself and a select group of users.</entry>
     
     <!-- The URL of a thumbnail image to appear in the gadget chooser. -->
     <entry key="thumbnail" private="true">http://fakeimg.pl/96/</entry>
@@ -34,7 +34,7 @@
     <!-- Below is a custom config entry. Custom entries are for the gadget's internal use only.
          You can add as many custom entries as you wish. The "private" and "overwritable" flags
          apply to custom entries too. -->
-    <entry key="font_size" label="Font Size" overwritable="true">14px</entry>
+    <!--<entry key="font_size" label="Font Size" overwritable="true">14px</entry>-->
 
 </config>
 
