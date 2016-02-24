@@ -56,7 +56,7 @@
 			site = '',
 			user = '',
 			count = 25,
-			today = Date();
+			today = new Date();
 			
 			gadget.ready().then(function () {
 				api_host = gadget.get('apihost');
@@ -79,7 +79,12 @@
 						console.log(data);
 						
 						$(data).each(function() {
-							//if()
+							var thisDate = new Date(this['date']);
+							var finalDate;
+							if(today.getDate() === thisDate.getDate())
+							  finalDate = thisDate.toLocaleTimeString();
+							else
+							  finalDate = this['date_format'];
 							var activityItem = $(
 							'<li>' + 
 								'<div class="icon"><i class="icon-broadcast-2"></i></div>' + 
@@ -91,7 +96,7 @@
 										this['resource'].toLowerCase() + ' published by ' + this['username'] + 
 									'</div>' + 
 									'<div class="when">' + 
-										this['date_format'] + 
+										finalDate + 
 									'</div>' +
 								'</div>' +
 							'</li>');
