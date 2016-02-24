@@ -5,7 +5,7 @@
     <entry key="title" label="Title">Targeted Activity</entry>
     
     <!-- The URL of an icon image. -->
-    <entry key="icon" private="true">http://commons.omniupdate.com/favicon.ico</entry>
+    <entry key="icon" private="true">http://puck.uark.edu/ben/targetedActivity.png</entry>
     
     <!-- The description that appears in the gadget chooser. -->
     <entry key="description" private="true">Lists the most recent actions (such as publishes) performed in OU Campus by specific users.</entry>
