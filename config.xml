@@ -2,13 +2,13 @@
 
 <config>
     <!-- The title that appears in the gadget's title bar. -->
-    <entry key="title" label="Title">Gadget Starter</entry>
+    <entry key="title" label="Title">Targeted Activity</entry>
     
     <!-- The URL of an icon image. -->
     <entry key="icon" private="true">http://commons.omniupdate.com/favicon.ico</entry>
     
     <!-- The description that appears in the gadget chooser. -->
-    <entry key="description" private="true">What my gadget does.</entry>
+    <entry key="description" private="true">Lists the most recent actions performed in OU Campus by yourself and a select group of users.</entry>
     
     <!-- The URL of a thumbnail image to appear in the gadget chooser. -->
     <entry key="thumbnail" private="true">http://fakeimg.pl/96/</entry>
