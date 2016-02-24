@@ -55,7 +55,7 @@
 			auth = '',
 			site = '',
 			user = '',
-			count;
+			count = 25;
 			
 			gadget.ready().then(function () {
 				api_host = gadget.get('apihost');
@@ -69,7 +69,6 @@
 				};
 				site = gadget.get('site');
 				user = gadget.get('user');
-				count = 25;
 				
 				$.ajax({
 					type: 'GET',
