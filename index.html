@@ -55,7 +55,8 @@
 			auth = '',
 			site = '',
 			user = '',
-			count = 25;
+			count = 25,
+			today = Date();
 			
 			gadget.ready().then(function () {
 				api_host = gadget.get('apihost');
@@ -78,6 +79,7 @@
 						console.log(data);
 						
 						$(data).each(function() {
+							//if()
 							var activityItem = $(
 							'<li>' + 
 								'<div class="icon"><i class="icon-broadcast-2"></i></div>' + 
