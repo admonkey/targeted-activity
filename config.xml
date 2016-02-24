@@ -8,7 +8,7 @@
     <entry key="icon" private="true">http://commons.omniupdate.com/favicon.ico</entry>
     
     <!-- The description that appears in the gadget chooser. -->
-    <entry key="description" private="true">What my gadget does.</entry>
+    <entry key="description" private="true">Lists the most recent actions (such as publishes) performed in OU Campus by specific users.</entry>
     
     <!-- The URL of a thumbnail image to appear in the gadget chooser. -->
     <entry key="thumbnail" private="true">http://fakeimg.pl/96/</entry>
