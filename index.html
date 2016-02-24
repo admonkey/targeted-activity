@@ -31,6 +31,7 @@
 		
 		li .activity {
 			margin-left: 24px;
+			font-size: 12px;
 		}
 
 		li .subject {
@@ -52,8 +53,9 @@
 			gid = '',
 			auth = '',
 			site = '',
+			hostbase = '',
 			user = '',
-			count;
+			count = 25;
 			
 			gadget.ready().then(function () {
 				api_host = gadget.get('apihost');
@@ -66,8 +68,8 @@
 					gadget: gid
 				};
 				site = gadget.get('site');
+				hostbase = gadget.get('hostbase');
 				user = gadget.get('user');
-				count = 25;
 				
 				$.ajax({
 					type: 'GET',
@@ -77,15 +79,31 @@
 						console.log(data);
 						
 						$(data).each(function() {
+							var type = this['resource'];
+							var name = this['resource_name'];
+							var href = '';
+							var date = '';
+							var icon = 'icon-file';
+							var user = this['username'];
+							
+							if (type == 'DIRECTORY') {
+								type = 'Folder';
+								icon = 'icon-folder';
+							}
+							else if (type == 'PAGE') {
+								type = 'Page';
+								icon = 'icon-file';
+							}
+							
 							var activityItem = $(
 							'<li>' + 
-								'<div class="icon"><i class="icon-broadcast-2"></i></div>' + 
+								'<div class="icon"><i class="' + icon + '"></i></div>' + 
 								'<div class="activity">' + 
 									'<div class="subject">' + 
-										'<a class="filename" href="/10/#outc16/workshop14/outc16/browse/staging/workshop-hackathon/targeted-activity" title="' + this['resource_name'] + '" target="_top">' + this['resource_name'] + '</a>' + 
+										'<a class="filename" href="' + href + '" title="' + name + '" target="_top">' + name + '</a>' + 
 									'</div>' + 
 									'<div class="what">' + 
-										this['resource'].toLowerCase() + ' published by ' + this['username'] + 
+										type + ' published by ' + user + 
 									'</div>' + 
 									'<div class="when">' + 
 										this['date_format'] + 
