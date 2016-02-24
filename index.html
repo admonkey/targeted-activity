@@ -10,7 +10,6 @@
     
     <style type="text/css">
         body {
-            margin: 10px;
             background-color: transparent;
         }
 		
@@ -20,16 +19,26 @@
 			margin: 0;
 		}
 		
-		.activity li {
+		li {
 			border-top: 1px solid #D8DFEA;
 			padding: 2px 10px;
 			line-height: 20px;
 		}
 		
-		.activity .icon {
+		li .icon {
 			font-size: 16px;
 			float: left;
 			margin-right: 6px;
+		}
+		
+		li .activity {
+			margin-left: 24px;
+		}
+
+		li .subject {
+			white-space: nowrap;
+			overflow-x: hidden;
+			text-overflow: ellipsis;
 		}
     </style>
     
