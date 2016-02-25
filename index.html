@@ -57,8 +57,8 @@
                 site = '',
                 hostbase = '',
                 user = '',
+                users = [],
                 count = 50;
-
 
             gadget.ready().then(function () {
                 init();
@@ -95,6 +95,8 @@
                 hostbase = gadget.get('hostbase');
                 user = gadget.get('user');
 
+                getUsers();
+
                 $('#activity-list').on('click', function (event) {
                     if (event.target.tagName == 'A') {
                         event.preventDefault();
@@ -107,13 +109,26 @@
                 });
             }
 
+            function getUsers() {
+                $.ajax({
+                    type: 'GET',
+                    url: api_host + '/users/list',
+                    data: auth,
+                    success: function (data) {
+                        users = data;
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error:', status, error);
+                    }
+                });
+            }
+
             function getActivities(callback) {
                 $.ajax({
                     type: 'GET',
                     url: api_host + '/activity/list' + '?site=' + site + '&count=' + count,
                     data: auth,
                     success: function (data) {
-                        //console.log(data);
                         callback(data);
                     },
                     error: function (xhr, status, error) {
@@ -137,7 +152,7 @@
                                 '<a class="filename" href="javascript:void(0);" title="' + data.resource_name + '" target="_top" path="' + data.href + '">' + data.resource_name + '</a>' +
                             '</div>' +
                             '<div class="what">' +
-                                data.type + ' published by ' + data.username +
+                                data.type + ' ' + data.displayVerb + ' ' + data.username +
                             '</div>' +
                             '<div class="when">' +
                                 data.relativeDate +
@@ -232,22 +247,19 @@
                             }[data.action] || 'help';
                 }
 
-                if (data.username) {
-                    var user = ''; //OU.app.getAccountModel().users.get(data.username);
-                    if (user) {
-                        //data.username = ''; //user.get('fullname');
-                    }
-                } else {
-                    data.username = 'Super Admin';
-                }
-
                 data.relativeDate = data.date_format;
                 if (new Date().getDate() === new Date(data.date).getDate())
                     data.relativeDate = new Date(data.date).toLocaleTimeString();
 
+                $(users).each(function() {
+                    if (this.username == user)
+                        data.username = this.first_name + ' ' + this.last_name;
+                    else
+                        data.username = 'Super Admin';
+                });
+
                 return data;
             }
-
         });
     </script>
 </head>
