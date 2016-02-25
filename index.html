@@ -2,186 +2,263 @@
 <html id="targetedActivity">
 <head>
     <!-- This title is not used. -->
-    <title>Targeted Activity</title> 
-    
+    <title>Targeted Activity</title>
+
     <!-- Use Bootstrap to match the look of OU Campus. -->
     <link rel="stylesheet" href="lib/bootstrap.min.css">
-	<link rel="stylesheet" href="http://a.cms.omniupdate.com/resources/icomoon/style.css">
-    
+    <link rel="stylesheet" href="http://a.cms.omniupdate.com/resources/icomoon/style.css">
+
     <style type="text/css">
         body {
             background-color: transparent;
         }
-		
-		ul {
-			list-style-type: none;
-			padding: 0;
-			margin: 0;
-		}
-		
-		li {
-			border-top: 1px solid #D8DFEA;
-			padding: 2px 10px;
-			line-height: 20px;
-		}
-		
-		li .icon {
-			font-size: 16px;
-			float: left;
-			margin-right: 6px;
-		}
-		
-		li .activity {
-			margin-left: 24px;
-			font-size: 12px;
-		}
 
-		li .subject {
-			white-space: nowrap;
-			overflow-x: hidden;
-			text-overflow: ellipsis;
-		}
-		
-		html#targetedActivity .activity {
-			font-size: 12px;
-		}
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            border-top: 1px solid #D8DFEA;
+            padding: 2px 10px;
+            line-height: 20px;
+        }
+
+        li .icon {
+            font-size: 16px;
+            float: left;
+            margin-right: 6px;
+        }
+
+        li .activity {
+            margin-left: 24px;
+            font-size: 12px;
+        }
+
+        li .subject {
+            white-space: nowrap;
+            overflow-x: hidden;
+            text-overflow: ellipsis;
+        }
     </style>
-    
+
     <script type="text/javascript" src="lib/jquery-2.1.3.min.js"></script>
     <script type="text/javascript" src="lib/gadgetlib.js"></script>
-    
+
     <script type="text/javascript">
-        
         $(document).ready(function () {
-			var api_host = '',
-			token = '',
-			account = '',
-			gid = '',
-			auth = '',
-			site = '',
-			hostbase = '',
-			user = '',
-			count = 25,
-			today = new Date();
-			
-			gadget.ready().then(function () {
-				api_host = gadget.get('apihost');
-				token = gadget.get('token');
-				account = gadget.get('account');
-				gid = gadget.get('gid');
-				auth = {
-					authorization_token: token,
-					account: account,
-					gadget: gid
-				};
-				site = gadget.get('site');
-				hostbase = gadget.get('hostbase');
-				user = gadget.get('user');
-				
-				$.ajax({
-					type: 'GET',
-					url: api_host + '/activity/list' + '?site=' + site + '&count=' + count, 
-					data: auth, 
-					success: function (data) {
-						console.log(data);
-						
-						$(data).each(function() {
-							var thisDate = new Date(this['date']);
-							var finalDate;
-							if(today.getDate() === thisDate.getDate())
-							  finalDate = thisDate.toLocaleTimeString();
-							else
-							  finalDate = this['date_format'];
-							var type = this['resource'];
-							var name = this['resource_name'];
-							var href = name;
-							var date = '';
-							var icon = 'icon-file';
-							var user = this['username'];
-							
-							if (type == 'DIRECTORY') {
-								type = 'Folder';
-								icon = 'icon-folder';
-							}
-							else if (type == 'PAGE') {
-								type = 'Page';
-								icon = 'icon-file';
-							}
-							else {
-								type = 'Asset';
-								icon = 'icon-file';
-							}
-							
-							var activityItem = $(
-							'<li>' + 
-								'<div class="icon"><i class="' + icon + '"></i></div>' + 
-								'<div class="activity">' + 
-									'<div class="subject">' + 
-										'<a class="filename" href="' + href + '" title="' + name + '" type="' + type + '" target="_top">' + name + '</a>' + 
-									'</div>' + 
-									'<div class="what">' + 
-										type + ' published by ' + user + 
-									'</div>' + 
-									'<div class="when">' + 
-										finalDate + 
-									'</div>' +
-								'</div>' +
-							'</li>');
-							$('#activity-list').append(activityItem);
-						});
-						
-						$('#activity-list a').on('click', function(event) {
-							event.preventDefault();
-							var name = $(event.target).attr('title');
-							var type = $(event.target).attr('type');
-							var href = '/preview' + name;
-							if (type == 'Folder')
-								href = '/browse/staging' + event.target.title;
-							
-							gadget.oucSetCurrentLocation(href);
-						});
-					},
-					error: function (xhr, status, error) {
-						console.error('Error:', status, error);
-					}
-				});
-			});
-			
-        });
-        
-        $(gadget).on({
-            'expanded': function (evt) {
-                // This event is triggered when the user expands (makes visible) a sidebar gadget.
-                console.log('Gadget expanded.');
-            },
-            'collapsed': function (evt) {
-                // This event is triggered when the user collapses (hides) a sidebar gadget.
-                console.log('Gadget collapsed.');
-            },
-            'configuration': function (evt, config) {
-                // If the user changes the gadget's configuration through the configuration modal,
-                // the gadget will hear about it and get the new config in the data argument here.
-                console.log('New config:', config);
-                $('#main').css({ 'font-size': config.font_size });
-            },
-            'notification': function (evt, notification) {
-                // If the gadget's config.xml contains a "notification" entry, any notifications
-                // of the specified type(s) generated by OU Campus will trigger 'notification'
-                // events that can be handled here.
-                console.log('Notification received:', notification);
+
+            var api_host = '',
+                token = '',
+                account = '',
+                gid = '',
+                auth = '',
+                site = '',
+                hostbase = '',
+                user = '',
+                count = 50;
+
+
+            gadget.ready().then(function () {
+                init();
+            });
+
+
+            $(gadget).on({
+                'expanded': function (evt) {
+                    console.log('Gadget expanded.');
+                },
+                'collapsed': function (evt) {
+                    console.log('Gadget collapsed.');
+                },
+                'configuration': function (evt, config) {
+                    console.log('New config:', config);
+                    //$('#main').css({'font-size': config.font_size});
+                },
+                'notification': function (evt, notification) {
+                    console.log('Notification received:', notification);
+                }
+            });
+
+            function init() {
+                api_host = gadget.get('apihost');
+                token = gadget.get('token');
+                account = gadget.get('account');
+                gid = gadget.get('gid');
+                auth = {
+                    authorization_token: token,
+                    account: account,
+                    gadget: gid
+                };
+                site = gadget.get('site');
+                hostbase = gadget.get('hostbase');
+                user = gadget.get('user');
+
+                $('#activity-list').on('click', function (event) {
+                    if (event.target.tagName == 'A') {
+                        event.preventDefault();
+                        gadget.oucSetCurrentLocation($(event.target).attr('path'));
+                    }
+                });
+
+                getActivities(function(data) {
+                    populateActivities(data);
+                });
             }
+
+            function getActivities(callback) {
+                $.ajax({
+                    type: 'GET',
+                    url: api_host + '/activity/list' + '?site=' + site + '&count=' + count,
+                    data: auth,
+                    success: function (data) {
+                        //console.log(data);
+                        callback(data);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error:', status, error);
+                    }
+                });
+            }
+
+            function populateActivities(data) {
+                $(data).each(function () {
+                    $('#activity-list').append(addActivity(addActivityProperties(this)));
+                });
+            }
+
+            function addActivity(data) {
+                return $(
+                    '<li>' +
+                        '<div class="icon"><i class="icon-' + data.icon + '"></i></div>' +
+                        '<div class="activity">' +
+                            '<div class="subject">' +
+                                '<a class="filename" href="javascript:void(0);" title="' + data.resource_name + '" target="_top" path="' + data.href + '">' + data.resource_name + '</a>' +
+                            '</div>' +
+                            '<div class="what">' +
+                                data.type + ' published by ' + data.username +
+                            '</div>' +
+                            '<div class="when">' +
+                                data.relativeDate +
+                            '</div>' +
+                        '</div>' +
+                    '</li>');
+            }
+
+            function addActivityProperties(data) {
+                data.type = {
+                    'PAGE'      : 'Page',
+                    'BINARY'    : 'Binary',
+                    'ASSET'     : 'Asset',
+                    'DIRECTORY' : 'Folder',
+                    'SITE'      : 'Site',
+                    'USER'      : 'User'
+                }[data.resource];
+                switch (data.resource) {
+                    case 'ASSET':
+                        var pieces = /^\/?([^\|]+)\|(\d+)/.exec(data.resource_name);
+                        data.resource_name = pieces[1];
+                        data.assetNum = pieces[2];
+                        if (data.action != 'DELETE')
+                            data.href = '/assets/' + data.assetNum + '/preview';
+                        break;
+                    case 'PAGE':
+                    case 'BINARY':
+                        if (data.action == 'RECYCLE' || (data.action == 'EXPIRE' && data.detail == 'Recycle'))
+                            data.href = '/trash';
+                        else if (data.action != 'DELETE') {
+                            if (data.action == 'COPY' || data.action == 'MOVE') {
+                                data.oldPath = data.resource_name;
+                                data.resource_name = data.detail;
+                            }
+                            else if (data.action == 'RENAME') {
+                                data.oldName = data.resource_name;
+                                data.resource_name = data.detail;
+                            }
+                            if (!/^\//.test(data.resource_name)) {
+                                data.resource_name = '/' + data.resource_name;
+                            }
+                            data.href = '/previewedit' + data.resource_name;
+                        }
+                        break;
+                    case 'DIRECTORY':
+                        if (data.action != 'DELETE')
+                            data.href = '/browse/staging' + data.resource_name;
+                        break;
+                    case 'SITE':
+                        if (data.action != 'DELETE')
+                            data.href = '/setup/sites/' + data.resource_name;
+                        break;
+                    case 'USER':
+                        if (data.action != 'DELETE')
+                            data.href = '/setup/users/' + data.resource_name;
+                        break;
+                }
+                if (data.action == 'CREATE' || data.action == 'CREATED') {
+                    data.displayVerb = 'created';
+                    data.icon = {
+                        'PAGE'      : 'file',
+                        'BINARY'    : 'file',
+                        'ASSET'     : 'loop',
+                        'DIRECTORY' : 'folder',
+                        'SITE'      : 'location',
+                        'USER'      : 'user-4'
+                    }[data.resource];
+                } else {
+                    data.displayVerb = {
+                                'BACKUP'  : 'backed up',
+                                'COPY'    : 'copied from ' + data.oldPath,
+                                'DELETE'  : 'deleted',
+                                'EXPIRE'  : 'expired (' + data.detail + ')',
+                                'MOVE'    : 'moved from ' + data.oldPath,
+                                'PUBLISH' : 'published' + (data.detail == 'scheduled' ? ' by schedule' : ''),
+                                'RECYCLE' : 'recycled',
+                                'RENAME'  : data.resource == 'ASSET' ? 'renamed' : 'renamed from "' + data.oldName + '"',
+                                'REVERT'  : 'reverted',
+                                'UPLOAD'  : 'uploaded'
+                            }[data.action] || '(unknown activity)';
+                    data.icon = {
+                                'BACKUP'  : 'box-add',
+                                'COPY'    : 'copy',
+                                'DELETE'  : 'remove-2',
+                                'EXPIRE'  : 'blocked',
+                                'MOVE'    : 'share',
+                                'PUBLISH' : 'broadcast-2',
+                                'RECYCLE' : 'recycle',
+                                'RENAME'  : 'pencil',
+                                'REVERT'  : 'history',
+                                'UPLOAD'  : 'arrow-up-18'
+                            }[data.action] || 'help';
+                }
+
+                if (data.username) {
+                    var user = ''; //OU.app.getAccountModel().users.get(data.username);
+                    if (user) {
+                        //data.username = ''; //user.get('fullname');
+                    }
+                } else {
+                    data.username = 'Super Admin';
+                }
+
+                data.relativeDate = data.date_format;
+                if (new Date().getDate() === new Date(data.date).getDate())
+                    data.relativeDate = new Date(data.date).toLocaleTimeString();
+
+                return data;
+            }
+
         });
-        
     </script>
 </head>
 <body>
-    <div id="main">
-        <ul id="activity-list">
-			<!-- Activity Items Added Here -->
-		</ul>
-    </div>
-    <div style="display:none">
-        <!-- ouc:ob --><!-- /ouc:ob -->
-    </div>
+<div id="main">
+    <ul id="activity-list">
+        <!-- Activity Items Added Here -->
+    </ul>
+</div>
+<div style="display:none">
+    <!-- ouc:ob --><!-- /ouc:ob -->
+</div>
 </body>
 </html>
