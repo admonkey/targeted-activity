@@ -74,7 +74,6 @@
                 },
                 'configuration': function (evt, config) {
                     console.log('New config:', config);
-                    //$('#main').css({'font-size': config.font_size});
                 },
                 'notification': function (evt, notification) {
                     console.log('Notification received:', notification);
@@ -247,7 +246,7 @@
                             }[data.action] || 'help';
                 }
 
-                data.relativeDate = data.date_format;
+                data.relativeDate = new Date(data.date).toLocaleString();
                 if (new Date().getDate() === new Date(data.date).getDate())
                     data.relativeDate = new Date(data.date).toLocaleTimeString();
 
