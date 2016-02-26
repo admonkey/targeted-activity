@@ -251,11 +251,10 @@
                 if (new Date().getDate() === new Date(data.date).getDate())
                     data.relativeDate = new Date(data.date).toLocaleTimeString();
 
+                data.username = 'Super Admin';
                 $(users).each(function() {
                     if (this.username == user)
                         data.username = this.first_name + ' ' + this.last_name;
-                    else
-                        data.username = 'Super Admin';
                 });
 
                 return data;
