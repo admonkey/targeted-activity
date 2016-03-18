@@ -130,6 +130,7 @@ The configuration file named config.xml, must be in the root directory of the ga
 >| copy  | Page copied |
 >| params-save  | Page Properties saved |
 >| zipimport  | Zip uploaded |
+>| wysiwyg-selection  | When content selection occurs in the WYSIWYG (Legacy WYSIWYG/ JustEdit) |
 
 >#### **``columns``**
 >
@@ -302,6 +303,7 @@ The Metadata API library, which comes packaged in the gadgetlib.js, provides a C
          metadata  : JSON.stringify({}),
          scope     : 'private', //optional defaults to private
          groups    : 'admins', //optional, list of group names
+    },{
          success   : successFn,
          error     : errorFn
     });
@@ -330,6 +332,7 @@ The Metadata API library, which comes packaged in the gadgetlib.js, provides a C
          item      : '/index.pcf', //optional alternative to mime_type, 
                                    //name of a site, page / directory path, id of asset
          item_type : 'page', //required if 'item' is provided.
+    },{
          success   : successFn,
          error     : errorFn
     });
@@ -368,6 +371,7 @@ The Metadata API library, which comes packaged in the gadgetlib.js, provides a C
     gadget.Metadata.view({
          mime_type : YOUR_MIME_TYPE,
          id        : 123, //id of the metadata to retrieve
+    },{
          success   : successFn,
          error     : errorFn
     });
@@ -410,6 +414,7 @@ The Metadata API library, which comes packaged in the gadgetlib.js, provides a C
          id        : METADATA_ID
          metadata  : JSON.stringify({}),
          scope     : 'private', //optional defaults to private
+    },{
          success   : successFn,
          error     : errorFn
     });
@@ -434,6 +439,7 @@ The Metadata API library, which comes packaged in the gadgetlib.js, provides a C
     gadget.Metadata.delete({
          mime_type : YOUR_MIME_TYPE,
          id        : METADATA_ID
+      },{
          success   : successFn,
          error     : errorFn
     });
@@ -480,7 +486,8 @@ Link creates a relationship between a metadatum and an OU Campus data model (pag
          link_type : LINK_TYPE, //LINK_TYPE can be 'asset', 'page', 'directory', or 'site'
          mime_type : YOUR_MIME_TYPE,
          id        : METADATA_ID,
-         item      : ITEM, //ITEM is an asset id, page path, directory path, or site name
+         item      : ITEM //ITEM is an asset id, page path, directory path, or site name
+      },{
          success   : successFn,
          error     : errorFn
     });
